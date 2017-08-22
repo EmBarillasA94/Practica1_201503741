@@ -23,7 +23,7 @@ public class Jugar_201503741 {
     int randomY;
     int x;
     int y;
-    double pos;
+    String pos;
     String nivel = "";
 
     public void crear(int n) {
@@ -39,7 +39,7 @@ public class Jugar_201503741 {
             }
         }
         //imprimiendo
-        
+
         if (n == 4) {
             nivel = "PRINCIPIANTE";
         } else if (n == 6) {
@@ -64,7 +64,7 @@ public class Jugar_201503741 {
         System.out.println("                  Voltear: V");
         System.out.println("                  Reiniciar: R");
         System.out.println("                  Salir: S");
-        System.out.println("                Ingrese Opciton:");
+        System.out.print("                Ingrese Opciton:");
         //ingresando option para jugar
         Scanner Joption = new Scanner(System.in);
         String letra;
@@ -73,7 +73,7 @@ public class Jugar_201503741 {
         Option(letra);
     }
 
-    void Option(String letra) {
+    public void Option(String letra) {
         switch (letra) {
             case "V":
                 voltear();
@@ -88,15 +88,13 @@ public class Jugar_201503741 {
                 crear(inicial);
                 break;
             case "S":
-                System.out.println("salir");
                 break;
             case "s":
-                System.out.println("salir");
                 break;
         }
     }
 
-    private void matriz2(int n) {
+    public void matriz2(int n) {
         //matriz de minas y numeros
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -212,18 +210,22 @@ public class Jugar_201503741 {
 
     }
 
-    private void voltear() {
+    public void voltear() {
         //ingresando posiciones x,y
         Scanner ingresar = new Scanner(System.in);
-        System.out.println("               Ingrese posicion:");
-        pos = ingresar.nextDouble();
+        System.out.println("               Ingrese fila y columna:");
+        System.out.print("                         ");
+        pos = ingresar.nextLine();
+        String[] parts = pos.split(",");
 //        System.out.println("pos: " + pos);
-        x = (int) (pos % 10);
+        x = Integer.parseInt(parts[0]);
 //        System.out.println("x: " + x);
-        y = (int) ((pos * 10) - (x * 10));
+        y = Integer.parseInt(parts[1]);
 //        System.out.println("y: " + y);
         int posX = x - 1;
+//        System.out.println("posX: " + posX);
         int posY = y - 1;
+//        System.out.println("posY: " + posY);
         if (matriz2[posX][posY] != "*") {
             //en la posicion elegida
             matriz1[posX][posY] = matriz2[posX][posY];
@@ -255,14 +257,38 @@ public class Jugar_201503741 {
                 }
             } catch (Exception e) {
             }
-            seguir_jugando();
-        }else if(matriz2[posX][posY] == "*"){
+            //contador para la matriz2
+            int contadorM2 = 0;
+            int contadorM1 = 0;
+            for (int i = 0; i < matriz2.length; i++) {
+                for (int j = 0; j < matriz2.length; j++) {
+                    if (matriz2[i][j] != "*") {
+                        contadorM2 = contadorM2 + 1;
+                    }
+                }
+            }
+            System.out.println("contadorM2: " + contadorM2);
+            //contador para la matriz1
+            for (int i = 0; i < matriz1.length; i++) {
+                for (int j = 0; j < matriz1.length; j++) {
+                    if (matriz1[i][j] != "X") {
+                        contadorM1 = contadorM1 + 1;
+                    }
+                }
+            }
+            System.out.println("contadorM1: " + contadorM1);
+            if (contadorM1 == contadorM2) {
+                victoria();
+            } else if (contadorM1 != contadorM2) {
+                seguir_jugando();
+            }
+        } else if (matriz2[posX][posY] == "*") {
             derrota();
         }
-        
+
     }
 
-    private void seguir_jugando() {
+    public void seguir_jugando() {
         System.out.println("--------------------------------------------------");
         System.out.println("              NIVEL " + nivel);
         for (int i = 0; i < matriz1.length; i++) {
@@ -289,7 +315,7 @@ public class Jugar_201503741 {
         Option(letra);
     }
 
-    private void matriz2_seguir() {
+    public void matriz2_seguir() {
         //imprimiendo matriz de minas y numero
         System.out.println("");
         for (int i = 0; i < matriz2.length; i++) {
@@ -301,14 +327,14 @@ public class Jugar_201503741 {
         }
     }
 
-    private void derrota() {
+    public void derrota() {
         System.out.println("--------------------------------------------------");
         System.out.println("              NIVEL " + nivel);
         System.out.println("               PERDISTE!!!!");
         //copiando todos los elementos de la matriz2 a la matriz1
-        for(int i=0;i<matriz2.length;i++){
-            for(int j=0; j<matriz2.length; j++){
-                matriz1[i][j]=matriz2[i][j];
+        for (int i = 0; i < matriz2.length; i++) {
+            for (int j = 0; j < matriz2.length; j++) {
+                matriz1[i][j] = matriz2[i][j];
             }
         }
         //imprimiendo matriz1
@@ -331,9 +357,46 @@ public class Jugar_201503741 {
         System.out.println("");
         System.out.println("      Presione ENTER para reiniciar el juego");
         Scanner leer = new Scanner(System.in);
-        String r="";
-        r=leer.nextLine();
+        String r = "";
+        r = leer.nextLine();
         new Practica1_201503741().menu();
+    }
+
+    public void victoria() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("              NIVEL " + nivel);
+        System.out.println("               VICTORIA!!!!");
+        //copiando todos los elementos de la matriz2 a la matriz1
+        for (int i = 0; i < matriz2.length; i++) {
+            for (int j = 0; j < matriz2.length; j++) {
+                matriz1[i][j] = matriz2[i][j];
+            }
+        }
+        //imprimiendo matriz1
+        for (int i = 0; i < matriz1.length; i++) {
+            System.out.println("");
+            System.out.print("              ");
+            for (int j = 0; j < matriz1[i].length; j++) {
+                System.out.print("|" + matriz1[i][j] + "|");
+            }
+        }
+        //imprimiendo matriz de minas y numero
+        System.out.println("");
+        for (int i = 0; i < matriz2.length; i++) {
+            System.out.println("");
+            System.out.print("              ");
+            for (int j = 0; j < matriz2[i].length; j++) {
+                System.out.print("|" + matriz2[i][j] + "|");
+            }
+        }
+        /*
+        System.out.println("");
+        System.out.println("      Presione ENTER para reiniciar el juego");
+        Scanner leer = new Scanner(System.in);
+        String r = "";
+        r = leer.nextLine();
+        new Practica1_201503741().menu();
+         */
     }
 
 }
