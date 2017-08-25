@@ -48,10 +48,22 @@ public class Jugar_201503741 {
             nivel = "EXPERTO";
         }
         System.out.println("--------------------------------------------------");
-        System.out.println("              NIVEL " + nivel);
+        if (nivel == "PRINCIPIANTE") {
+            System.out.println("                NIVEL " + nivel);
+        } else if (nivel == "INTERMEDIO") {
+            System.out.println("                 NIVEL " + nivel);
+        } else if (nivel == "EXPERTO") {
+            System.out.println("                   NIVEL " + nivel);
+        }
         for (int i = 0; i < matriz1.length; i++) {
             System.out.println("");
-            System.out.print("              ");
+            if (nivel == "PRINCIPIANTE") {
+                System.out.print("                   ");
+            } else if (nivel == "INTERMEDIO") {
+                System.out.print("                ");
+            } else if (nivel == "EXPERTO") {
+                System.out.print("             ");
+            }
             for (int j = 0; j < matriz1[i].length; j++) {
                 System.out.print("|" + matriz1[i][j] + "|");
             }
@@ -60,16 +72,16 @@ public class Jugar_201503741 {
         matriz2(n);
 
         System.out.println("");
-        System.out.println("               -------------------");
-        System.out.println("                  Voltear: V");
-        System.out.println("                  Reiniciar: R");
-        System.out.println("                  Salir: S");
-        System.out.print("                Ingrese Opciton:");
+        System.out.println("               --------------------");
+        System.out.println("                    Voltear: V");
+        System.out.println("                    Reiniciar: R");
+        System.out.println("                    Salir: S");
+        System.out.print("                  Ingrese Opciton: ");
         //ingresando option para jugar
         Scanner Joption = new Scanner(System.in);
         String letra;
         letra = Joption.nextLine();
-        System.out.println("               -------------------");
+        System.out.println("               --------------------");
         Option(letra);
     }
 
@@ -120,8 +132,8 @@ public class Jugar_201503741 {
             int verificador = 0;
             while (verificador == 0) {
 //                System.out.println("nMinas: " + nMinas);
-                randomX = ThreadLocalRandom.current().nextInt(0, n - 1);
-                randomY = ThreadLocalRandom.current().nextInt(0, n - 1);
+                randomX = ThreadLocalRandom.current().nextInt(0, n);
+                randomY = ThreadLocalRandom.current().nextInt(0, n);
 //                System.out.println("randomX: " + randomX + "randomY: " + randomY);
                 if (matriz2[randomX][randomY] == " ") {
                     matriz2[randomX][randomY] = "*";
@@ -202,7 +214,13 @@ public class Jugar_201503741 {
         System.out.println("");
         for (int i = 0; i < matriz2.length; i++) {
             System.out.println("");
-            System.out.print("              ");
+            if (nivel == "PRINCIPIANTE") {
+                System.out.print("                   ");
+            } else if (nivel == "INTERMEDIO") {
+                System.out.print("                ");
+            } else if (nivel == "EXPERTO") {
+                System.out.print("             ");
+            }
             for (int j = 0; j < matriz2[i].length; j++) {
                 System.out.print("|" + matriz2[i][j] + "|");
             }
@@ -226,74 +244,97 @@ public class Jugar_201503741 {
 //        System.out.println("posX: " + posX);
         int posY = y - 1;
 //        System.out.println("posY: " + posY);
-        if (matriz2[posX][posY] != "*") {
-            //en la posicion elegida
-            matriz1[posX][posY] = matriz2[posX][posY];
-            //una posicion arriba
-            try {
-                if (matriz2[posX - 1][posY] != "*") {
-                    matriz1[posX - 1][posY] = matriz2[posX - 1][posY];
-                }
-            } catch (Exception e) {
-            }
-            //una posicion abajo
-            try {
-                if (matriz2[posX + 1][posY] != "*") {
-                    matriz1[posX + 1][posY] = matriz2[posX + 1][posY];
-                }
-            } catch (Exception e) {
-            }
-            //una posicion a la izquierda
-            try {
-                if (matriz2[posX][posY - 1] != "*") {
-                    matriz1[posX][posY - 1] = matriz2[posX][posY - 1];
-                }
-            } catch (Exception e) {
-            }
-            //una posicion a la derecha
-            try {
-                if (matriz2[posX][posY + 1] != "*") {
-                    matriz1[posX][posY + 1] = matriz2[posX][posY + 1];
-                }
-            } catch (Exception e) {
-            }
-            //contador para la matriz2
-            int contadorM2 = 0;
-            int contadorM1 = 0;
-            for (int i = 0; i < matriz2.length; i++) {
-                for (int j = 0; j < matriz2.length; j++) {
-                    if (matriz2[i][j] != "*") {
-                        contadorM2 = contadorM2 + 1;
-                    }
-                }
-            }
-            System.out.println("contadorM2: " + contadorM2);
-            //contador para la matriz1
-            for (int i = 0; i < matriz1.length; i++) {
-                for (int j = 0; j < matriz1.length; j++) {
-                    if (matriz1[i][j] != "X") {
-                        contadorM1 = contadorM1 + 1;
-                    }
-                }
-            }
-            System.out.println("contadorM1: " + contadorM1);
-            if (contadorM1 == contadorM2) {
-                victoria();
-            } else if (contadorM1 != contadorM2) {
-                seguir_jugando();
-            }
-        } else if (matriz2[posX][posY] == "*") {
-            derrota();
-        }
+//        System.out.println("inicial: " + inicial);
+        //filtro de la posicion ingresada
+        if (posX < inicial & posY < inicial & posX >= 0 & posY >= 0) {
 
+            if (matriz2[posX][posY] != "*" & matriz1[posX][posY] == "X") {
+                //en la posicion elegida
+                matriz1[posX][posY] = matriz2[posX][posY];
+                //una posicion arriba
+                try {
+                    if (matriz2[posX - 1][posY] != "*") {
+                        matriz1[posX - 1][posY] = matriz2[posX - 1][posY];
+                    }
+                } catch (Exception e) {
+                }
+                //una posicion abajo
+                try {
+                    if (matriz2[posX + 1][posY] != "*") {
+                        matriz1[posX + 1][posY] = matriz2[posX + 1][posY];
+                    }
+                } catch (Exception e) {
+                }
+                //una posicion a la izquierda
+                try {
+                    if (matriz2[posX][posY - 1] != "*") {
+                        matriz1[posX][posY - 1] = matriz2[posX][posY - 1];
+                    }
+                } catch (Exception e) {
+                }
+                //una posicion a la derecha
+                try {
+                    if (matriz2[posX][posY + 1] != "*") {
+                        matriz1[posX][posY + 1] = matriz2[posX][posY + 1];
+                    }
+                } catch (Exception e) {
+                }
+                //contador para la matriz2
+                int contadorM2 = 0;
+                int contadorM1 = 0;
+                for (int i = 0; i < matriz2.length; i++) {
+                    for (int j = 0; j < matriz2.length; j++) {
+                        if (matriz2[i][j] != "*") {
+                            contadorM2 = contadorM2 + 1;
+                        }
+                    }
+                }
+//            System.out.println("contadorM2: " + contadorM2);
+                //contador para la matriz1
+                for (int i = 0; i < matriz1.length; i++) {
+                    for (int j = 0; j < matriz1.length; j++) {
+                        if (matriz1[i][j] != "X") {
+                            contadorM1 = contadorM1 + 1;
+                        }
+                    }
+                }
+//            System.out.println("contadorM1: " + contadorM1);
+                if (contadorM1 == contadorM2) {
+                    victoria();
+                } else if (contadorM1 != contadorM2) {
+                    seguir_jugando();
+                }
+            } else if (matriz2[posX][posY] == "*") {
+                derrota();
+            } else if (matriz1[posX][posY] != "X") {
+                System.out.println("  La posicion ya fue volteada, intenta con otra");
+                voltear();
+            }
+
+        } else {
+            System.out.println("  La posicion ingresada no es valida, intenta con otra");
+            voltear();
+        }
     }
 
     public void seguir_jugando() {
         System.out.println("--------------------------------------------------");
-        System.out.println("              NIVEL " + nivel);
+        if (nivel == "PRINCIPIANTE") {
+            System.out.println("                NIVEL " + nivel);
+        } else if (nivel == "INTERMEDIO") {
+            System.out.println("                 NIVEL " + nivel);
+        } else if (nivel == "EXPERTO") {
+            System.out.println("                   NIVEL " + nivel);
+        }
         for (int i = 0; i < matriz1.length; i++) {
             System.out.println("");
-            System.out.print("              ");
+            if (nivel == "PRINCIPIANTE") {
+                System.out.print("                   ");
+            } else if (nivel == "INTERMEDIO") {
+                System.out.print("                ");
+            } else if (nivel == "EXPERTO") {
+                System.out.print("             ");
+            }
             for (int j = 0; j < matriz1[i].length; j++) {
                 System.out.print("|" + matriz1[i][j] + "|");
             }
@@ -302,11 +343,11 @@ public class Jugar_201503741 {
         matriz2_seguir();
 
         System.out.println("");
-        System.out.println("               -------------------");
-        System.out.println("                  Voltear: V");
-        System.out.println("                  Reiniciar: R");
-        System.out.println("                  Salir: S");
-        System.out.println("                Ingrese Opciton:");
+        System.out.println("               --------------------");
+        System.out.println("                    Voltear: V");
+        System.out.println("                    Reiniciar: R");
+        System.out.println("                    Salir: S");
+        System.out.print("                  Ingrese Opciton: ");
         //ingresando option para jugar
         Scanner Joption = new Scanner(System.in);
         String letra;
@@ -320,7 +361,13 @@ public class Jugar_201503741 {
         System.out.println("");
         for (int i = 0; i < matriz2.length; i++) {
             System.out.println("");
-            System.out.print("              ");
+            if (nivel == "PRINCIPIANTE") {
+                System.out.print("                   ");
+            } else if (nivel == "INTERMEDIO") {
+                System.out.print("                ");
+            } else if (nivel == "EXPERTO") {
+                System.out.print("             ");
+            }
             for (int j = 0; j < matriz2[i].length; j++) {
                 System.out.print("|" + matriz2[i][j] + "|");
             }
@@ -329,8 +376,14 @@ public class Jugar_201503741 {
 
     public void derrota() {
         System.out.println("--------------------------------------------------");
-        System.out.println("              NIVEL " + nivel);
-        System.out.println("               PERDISTE!!!!");
+        if (nivel == "PRINCIPIANTE") {
+            System.out.println("                NIVEL " + nivel);
+        } else if (nivel == "INTERMEDIO") {
+            System.out.println("                 NIVEL " + nivel);
+        } else if (nivel == "EXPERTO") {
+            System.out.println("                   NIVEL " + nivel);
+        }
+        System.out.println("                   PERDISTE!!!!");
         //copiando todos los elementos de la matriz2 a la matriz1
         for (int i = 0; i < matriz2.length; i++) {
             for (int j = 0; j < matriz2.length; j++) {
@@ -340,7 +393,13 @@ public class Jugar_201503741 {
         //imprimiendo matriz1
         for (int i = 0; i < matriz1.length; i++) {
             System.out.println("");
-            System.out.print("              ");
+            if (nivel == "PRINCIPIANTE") {
+                System.out.print("                   ");
+            } else if (nivel == "INTERMEDIO") {
+                System.out.print("                ");
+            } else if (nivel == "EXPERTO") {
+                System.out.print("             ");
+            }
             for (int j = 0; j < matriz1[i].length; j++) {
                 System.out.print("|" + matriz1[i][j] + "|");
             }
@@ -349,24 +408,53 @@ public class Jugar_201503741 {
         System.out.println("");
         for (int i = 0; i < matriz2.length; i++) {
             System.out.println("");
-            System.out.print("              ");
+            if (nivel == "PRINCIPIANTE") {
+                System.out.print("                   ");
+            } else if (nivel == "INTERMEDIO") {
+                System.out.print("                ");
+            } else if (nivel == "EXPERTO") {
+                System.out.print("             ");
+            }
             for (int j = 0; j < matriz2[i].length; j++) {
                 System.out.print("|" + matriz2[i][j] + "|");
             }
         }
         System.out.println("");
-        System.out.println("      Presione ENTER para reiniciar el juego");
+        System.out.println("               ---------------------");
+        System.out.println("                  Jugar de nuevo:");
+        System.out.println("                       SI: S");
+        System.out.println("                       NO: N");
+        System.out.print("                   Ingrese Opcion: ");
         Scanner leer = new Scanner(System.in);
         String r = "";
         r = leer.nextLine();
-        new Practica1_201503741().menu();
+        switch (r){
+            case "S":
+                new Practica1_201503741().menu();
+                break;
+            case "s":
+                new Practica1_201503741().menu();
+                break;
+            case "N":
+                break;
+            case "n":
+                break;
+        }
+        
     }
 
     public void victoria() {
         System.out.println("--------------------------------------------------");
-        System.out.println("              NIVEL " + nivel);
-        System.out.println("               VICTORIA!!!!");
+        if (nivel == "PRINCIPIANTE") {
+            System.out.println("                NIVEL " + nivel);
+        } else if (nivel == "INTERMEDIO") {
+            System.out.println("                 NIVEL " + nivel);
+        } else if (nivel == "EXPERTO") {
+            System.out.println("                   NIVEL " + nivel);
+        }
+        System.out.println("                   VICTORIA!!!!");
         //copiando todos los elementos de la matriz2 a la matriz1
+        /*
         for (int i = 0; i < matriz2.length; i++) {
             for (int j = 0; j < matriz2.length; j++) {
                 matriz1[i][j] = matriz2[i][j];
@@ -389,14 +477,28 @@ public class Jugar_201503741 {
                 System.out.print("|" + matriz2[i][j] + "|");
             }
         }
-        /*
+        */
         System.out.println("");
-        System.out.println("      Presione ENTER para reiniciar el juego");
+        System.out.println("               ---------------------");
+        System.out.println("                  Jugar de nuevo:");
+        System.out.println("                       SI: S");
+        System.out.println("                       NO: N");
+        System.out.print("                   Ingrese Opcion: ");
         Scanner leer = new Scanner(System.in);
         String r = "";
         r = leer.nextLine();
-        new Practica1_201503741().menu();
-         */
+        switch (r){
+            case "S":
+                new Practica1_201503741().menu();
+                break;
+            case "s":
+                new Practica1_201503741().menu();
+                break;
+            case "N":
+                break;
+            case "n":
+                break;
+        }
+        
     }
-
 }

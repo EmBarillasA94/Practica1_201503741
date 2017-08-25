@@ -22,10 +22,10 @@ public class Practica1_201503741 {
 
     public static void menu() {
         int n=0;
-        System.out.println("          EDDY ALEJANDRO MURGA BARILLAS");
-        System.out.println("                   201503741");
-        System.out.println("               IPC A Practica 1");
-        System.out.println("                 BUSCAMINAS!!!!");
+        System.out.println("            EDDY ALEJANDRO MURGA BARILLAS");
+        System.out.println("                     201503741");
+        System.out.println("                 IPC A Practica 1");
+        System.out.println("                   BUSCAMINAS!!!!");
         Scanner enter = new Scanner(System.in);
         String presionar= enter.nextLine();
         System.out.println("--------------------------------------------------");
